@@ -1,0 +1,34 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Rimba\Lms\Models;
+
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Rimba\Lms\Policies\QuizPolicy;
+
+#[Table('lms_quizzes')]
+#[UsePolicy(QuizPolicy::class)]
+#[Fillable(['module_id', 'name', 'description', 'pass_score', 'max_attempts', 'randomize_questions', 'question_limit', 'rules', 'attributes'])]
+class Quiz extends Model
+{
+    public function module(): BelongsTo
+    {
+        return $this->belongsTo(Module::class);
+    }
+
+    public function attempts(): HasMany
+    {
+        return $this->hasMany(QuizAttempt::class);
+    }
+
+    protected function casts(): array
+    {
+        return ['randomize_questions' => 'boolean', 'rules' => 'array', 'attributes' => 'array'];
+    }
+}
