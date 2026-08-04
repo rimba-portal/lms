@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Rimba\Lms\Http\UI\Staff\Pages;
 
+use BackedEnum;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 use Rimba\Lms\Actions\BuildQuizAttempt;
 use Rimba\Lms\Actions\GradeQuizAttempt;
@@ -17,11 +19,11 @@ use Rimba\Lms\Models\QuizAttemptQuestion;
 
 class TakeQuiz extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-question-mark-circle';
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedQuestionMarkCircle;
 
     protected static bool $shouldRegisterNavigation = false;
 
-    protected static string $view = 'lms::staff.pages.take-quiz';
+    protected string $view = 'lms::staff.pages.take-quiz';
 
     protected static ?string $slug = 'lms/quizzes/{quiz}/take';
 

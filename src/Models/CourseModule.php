@@ -16,4 +16,27 @@ class CourseModule extends Model
     {
         return ['is_required' => 'boolean', 'attributes' => 'array'];
     }
+
+    public static function seedMappings(): array
+    {
+        return [
+
+            'course_code' => function (string $code): array {
+                return [
+                    'course_id' => Course::query()
+                        ->where('code', $code)
+                        ->value('id'),
+                ];
+            },
+
+            'module_code' => function (string $code): array {
+                return [
+                    'module_id' => Module::query()
+                        ->where('code', $code)
+                        ->value('id'),
+                ];
+            },
+
+        ];
+    }
 }
