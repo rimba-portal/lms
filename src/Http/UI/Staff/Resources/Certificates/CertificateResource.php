@@ -19,7 +19,7 @@ class CertificateResource extends Resource
 {
     protected static ?string $model = Certificate::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'rimba-lms-certificate';
+    protected static string|BackedEnum|null $navigationIcon = 'bites-lms-certificate';
 
     protected static string|UnitEnum|null $navigationGroup = 'Learning';
 

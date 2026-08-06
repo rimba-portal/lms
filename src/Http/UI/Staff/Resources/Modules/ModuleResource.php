@@ -22,7 +22,7 @@ class ModuleResource extends Resource
 {
     protected static ?string $model = Module::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'rimba-lms-module';
+    protected static string|BackedEnum|null $navigationIcon = 'bites-lms-module';
 
     protected static string|UnitEnum|null $navigationGroup = 'Learning';
 

@@ -19,7 +19,7 @@ class CourseResource extends Resource
 {
     protected static ?string $model = Course::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'rimba-lms-course';
+    protected static string|BackedEnum|null $navigationIcon = 'bites-lms-course';
 
     protected static string|UnitEnum|null $navigationGroup = 'Learning';
 
