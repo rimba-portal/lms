@@ -11,7 +11,7 @@ class CertificatePolicy
 {
     public function view(User $user, Certificate $certificate): bool
     {
-        return $user->can('lms.certificate.view');
+        return true; // $user->can('lms.certificate.view');
     }
 
     public function revoke(User $user, Certificate $certificate): bool

@@ -13,6 +13,7 @@ return new class extends Migration
             $table->foreignId('org_team_id')->nullable()->constrained('org_teams')->nullOnDelete();
             $table->string('code')->unique();
             $table->string('title');
+            $table->string('category');
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);
             $table->json('attributes')->nullable();

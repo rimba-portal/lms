@@ -15,7 +15,7 @@ use Rimba\Lms\Policies\CoursePolicy;
 
 #[Table('lms_courses')]
 #[UsePolicy(CoursePolicy::class)]
-#[Fillable(['org_team_id', 'code', 'title', 'description', 'is_active', 'attributes'])]
+#[Fillable(['org_team_id', 'code', 'title', 'category', 'description', 'is_active', 'attributes'])]
 class Course extends Model
 {
     public function newEloquentBuilder($query): CourseBuilder

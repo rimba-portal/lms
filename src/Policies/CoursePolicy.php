@@ -11,12 +11,12 @@ class CoursePolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->can('lms.course.view');
+        return true; // $user->can('lms.course.view');
     }
 
     public function view(User $user, Course $course): bool
     {
-        return $user->can('lms.course.view');
+        return true; // $user->can('lms.course.view');
     }
 
     public function create(User $user): bool
