@@ -27,7 +27,7 @@ class CourseGroup extends Model
 
     public function courses(): BelongsToMany
     {
-        return $this->belongsToMany(Course::class, 'course_group_assignments')->withTimestamps();
+        return $this->belongsToMany(Course::class, 'lms_course_group_assignments')->withTimestamps();
     }
 
     protected function casts(): array

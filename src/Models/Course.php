@@ -25,12 +25,12 @@ class Course extends Model
 
     public function groups(): BelongsToMany
     {
-        return $this->belongsToMany(CourseGroup::class, 'course_group_assignments')->withTimestamps();
+        return $this->belongsToMany(CourseGroup::class, 'lms-course_group_assignments')->withTimestamps();
     }
 
     public function modules(): BelongsToMany
     {
-        return $this->belongsToMany(Module::class, 'course_modules')->withPivot(['sequence', 'is_required', 'attributes'])->withTimestamps();
+        return $this->belongsToMany(Module::class, 'lms-course_modules')->withPivot(['sequence', 'is_required', 'attributes'])->withTimestamps();
     }
 
     public function courseModules(): HasMany

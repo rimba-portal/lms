@@ -26,12 +26,12 @@ class Module extends Model
 
     public function courses(): BelongsToMany
     {
-        return $this->belongsToMany(Course::class, 'course_modules')->withPivot(['sequence', 'is_required', 'attributes'])->withTimestamps();
+        return $this->belongsToMany(Course::class, 'lms_course_modules')->withPivot(['sequence', 'is_required', 'attributes'])->withTimestamps();
     }
 
     public function documents(): BelongsToMany
     {
-        return $this->belongsToMany(Document::class, 'module_documents')->withPivot(['sequence', 'is_required', 'attributes'])->withTimestamps();
+        return $this->belongsToMany(Document::class, 'lms_module_documents')->withPivot(['sequence', 'is_required', 'attributes'])->withTimestamps();
     }
 
     public function moduleDocuments(): HasMany
