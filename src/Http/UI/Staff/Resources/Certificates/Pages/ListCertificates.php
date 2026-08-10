@@ -47,7 +47,7 @@ class ListCertificates extends ListRecords
             ->visibleTo(Auth::user())
             ->pluck('total', 'category');
 
-        $totalPublished = (int) $counts->sum();
+        $counts->sum();
         $tabs = [];
 
         // "All" tab - use a simple string key 'all'
@@ -65,7 +65,7 @@ class ListCertificates extends ListRecords
                 ])
                 ->badge(function () use ($key) {
                     $count = Module::query()
-                        ->whereHas('courses', function ($query) use ($key) {
+                        ->whereHas('courses', function ($query) use ($key): void {
                             $query->where('status', 'published')
                                 ->where('category', $key);
                         })

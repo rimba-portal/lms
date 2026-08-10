@@ -10,6 +10,7 @@ use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Auth;
 use Rimba\Lms\Enums\CourseGroup;
 use Rimba\Lms\Models\Course;
@@ -27,7 +28,7 @@ class CoursesTable
                     ->label('Group')
                     ->badge()
                     ->alignEnd()
-                    ->formatStateUsing(function (?CourseGroup $state, $record) {
+                    ->formatStateUsing(function (?CourseGroup $state, $record): string|Htmlable {
                         $label = $state?->getLabel() ?? '-';
                         $count = $record->modules_count ?? 0;
                         if ($count === 0) {
@@ -36,8 +37,8 @@ class CoursesTable
 
                         return "{$label} · {$count} ".str('module')->plural($count);
                     })
-                    ->color(fn (?CourseGroup $state) => $state?->getColor())
-                    ->tooltip(fn (?CourseGroup $state) => $state?->getDescription()),
+                    ->color(fn (?CourseGroup $state): string|array|null => $state?->getColor())
+                    ->tooltip(fn (?CourseGroup $state): string|\Illuminate\Contracts\Support\Htmlable|null => $state?->getDescription()),
                 Split::make([
                     IconColumn::make('category')
                         ->label('')

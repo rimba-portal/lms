@@ -34,7 +34,7 @@ class CourseInfolist
                                 Components\TextEntry::make('status')
                                     ->label('Status')
                                     ->badge()
-                                    ->color(fn (string $state) => match ($state) {
+                                    ->color(fn (string $state): string => match ($state) {
                                         'active' => 'success',
                                         'draft' => 'warning',
                                         'archived' => 'gray',
