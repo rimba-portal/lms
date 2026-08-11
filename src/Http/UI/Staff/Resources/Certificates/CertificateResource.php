@@ -23,7 +23,7 @@ class CertificateResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Learning';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 24;
 
     protected static ?string $recordTitleAttribute = 'certificate_number';
 

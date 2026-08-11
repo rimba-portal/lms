@@ -23,7 +23,7 @@ class CourseResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Learning';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 25;
 
     public static function infolist(Schema $schema): Schema
     {

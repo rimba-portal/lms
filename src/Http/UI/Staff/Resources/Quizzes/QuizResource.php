@@ -24,7 +24,7 @@ class QuizResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Learning';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 27;
 
     protected static ?string $recordTitleAttribute = 'name';
 
