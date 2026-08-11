@@ -48,6 +48,7 @@ class ListCertificates extends ListRecords
             ->pluck('total', 'category');
 
         $counts->sum();
+
         $tabs = [];
 
         // "All" tab - use a simple string key 'all'
