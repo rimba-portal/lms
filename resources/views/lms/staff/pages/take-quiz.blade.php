@@ -1,21 +1,14 @@
 <x-filament-panels::page>
     <form wire:submit.prevent="submit" class="space-y-6">
-
         <div class="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
             <div class="space-y-1">
-                <h2 class="text-xl font-semibold">
-                    {{ $quiz->name }}
-                </h2>
+                <h2 class="text-xl font-semibold">{{ $quiz->name }}</h2>
 
                 @if ($quiz->description)
-                    <p class="text-sm text-gray-600 dark:text-gray-400">
-                        {{ $quiz->description }}
-                    </p>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">{{ $quiz->description }}</p>
                 @endif
 
-                <div class="text-sm text-gray-500 dark:text-gray-400">
-                    Passing score: {{ $quiz->pass_score }}%
-                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">Passing score: {{ $quiz->pass_score }}%</div>
             </div>
         </div>
 
@@ -36,9 +29,7 @@
                         @endif
                     </div>
 
-                    <div class="text-base font-semibold text-gray-950 dark:text-white">
-                        {{ $questionText }}
-                    </div>
+                    <div class="text-base font-semibold text-gray-950 dark:text-white">{{ $questionText }}</div>
                 </div>
 
                 @if ($type === 'single_choice')
@@ -50,11 +41,9 @@
                                     wire:model.defer="answers.{{ $question['id'] }}"
                                     value="{{ $option['key'] ?? '' }}"
                                     class="mt-1"
-                                >
+                                />
 
-                                <span>
-                                    {{ $option['label'] ?? $option['key'] ?? '' }}
-                                </span>
+                                <span> {{ $option['label'] ?? $option['key'] ?? '' }} </span>
                             </label>
                         @endforeach
                     </div>
@@ -67,11 +56,9 @@
                                     wire:model.defer="answers.{{ $question['id'] }}"
                                     value="{{ $option['key'] ?? '' }}"
                                     class="mt-1"
-                                >
+                                />
 
-                                <span>
-                                    {{ $option['label'] ?? $option['key'] ?? '' }}
-                                </span>
+                                <span> {{ $option['label'] ?? $option['key'] ?? '' }} </span>
                             </label>
                         @endforeach
                     </div>
@@ -83,7 +70,7 @@
                                 wire:model.defer="answers.{{ $question['id'] }}"
                                 value="true"
                                 class="mt-1"
-                            >
+                            />
 
                             <span>True</span>
                         </label>
@@ -94,7 +81,7 @@
                                 wire:model.defer="answers.{{ $question['id'] }}"
                                 value="false"
                                 class="mt-1"
-                            >
+                            />
 
                             <span>False</span>
                         </label>
@@ -104,7 +91,7 @@
                         type="text"
                         wire:model.defer="answers.{{ $question['id'] }}"
                         class="block w-full rounded-lg border-gray-300 shadow-sm dark:border-gray-700 dark:bg-gray-800"
-                    >
+                    />
                 @else
                     <textarea
                         wire:model.defer="answers.{{ $question['id'] }}"
@@ -116,11 +103,7 @@
         @endforeach
 
         <div class="flex items-center justify-end gap-3">
-            <x-filament::button
-                type="submit"
-                color="primary"
-                wire:loading.attr="disabled"
-            >
+            <x-filament::button type="submit" color="primary" wire:loading.attr="disabled">
                 Submit Quiz
             </x-filament::button>
         </div>
