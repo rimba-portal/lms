@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Rimba\Lms\Builders\CourseBuilder;
+use Rimba\Lms\Enums\CourseGroup;
 use Rimba\Lms\Policies\CoursePolicy;
 
 #[Table('lms_courses')]
@@ -25,12 +26,12 @@ class Course extends Model
 
     public function groups(): BelongsToMany
     {
-        return $this->belongsToMany(CourseGroup::class, 'lms-course_group_assignments')->withTimestamps();
+        return $this->belongsToMany(CourseGroup::class, 'lms_course_group_assignments')->withTimestamps();
     }
 
     public function modules(): BelongsToMany
     {
-        return $this->belongsToMany(Module::class, 'lms-course_modules')->withPivot(['sequence', 'is_required', 'attributes'])->withTimestamps();
+        return $this->belongsToMany(Module::class, 'lms_course_modules')->withPivot(['sequence', 'is_required', 'attributes'])->withTimestamps();
     }
 
     public function courseModules(): HasMany
@@ -45,6 +46,10 @@ class Course extends Model
 
     protected function casts(): array
     {
-        return ['is_active' => 'boolean', 'attributes' => 'array'];
+        return [
+            'category' => CourseGroup::class,
+            'is_active' => 'boolean',
+            'attributes' => 'array',
+        ];
     }
 }

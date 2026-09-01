@@ -21,7 +21,8 @@ class CoursesTable
     {
         return $table
             ->query(
-                Course::query()->where('status', 'published')->withCount('modules') // ->visibleTo(Auth::user())
+                // Course::query()->where('is_active', true)->withCount('modules') // ->visibleTo(Auth::user())
+                Course::query()->withCount('modules') // ->visibleTo(Auth::user())
             )
             ->columns([
                 TextColumn::make('category')

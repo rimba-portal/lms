@@ -6,99 +6,67 @@ namespace Rimba\Lms\Http\UI\Staff\Resources\Courses\Pages;
 
 use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Components\Tabs\Tab;
-use Filament\Support\Enums\IconPosition;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
 use Rimba\Lms\Enums\CourseGroup;
 use Rimba\Lms\Http\UI\Staff\Resources\Courses\CourseResource;
 use Rimba\Lms\Models\Course;
-use Rimba\Lms\Models\Module;
 
 class ListCourses extends ListRecords
 {
-    protected int|string|array $columnSpan = 'full';
-
     protected static string $resource = CourseResource::class;
 
-    protected function getHeaderWidgets(): array
+    protected int|string|array $columnSpan = 'full';
+
+    protected function getHeaderActions(): array
     {
         return [];
     }
 
-    protected function getHeaderActions(): array
+    public function getDefaultActiveTab(): string|int|null
     {
-        return [
-            //
-        ];
+        $hasOnboarding = Course::query()
+            ->where('is_active', true)
+            ->where('category', CourseGroup::ONBOARDING)
+            ->exists();
+
+        return $hasOnboarding
+            ? CourseGroup::ONBOARDING->value
+            : 'all';
     }
 
-    // public function getDefaultActiveTab(): string|int|null
-    // {
+    public function getTabs(): array
+    {
+        $counts = Course::query()
+            ->where('is_active', true)
+            ->get()
+            ->groupBy(fn (Course $course) => $course->category?->value)
+            ->map->count();
 
-    //     $onboardingCount = Course::query()
-    //         ->where('status', 'published')
-    //         ->where('category', 'Onboarding')
-    //         ->visibleTo(Auth::user())
-    //         ->count();
+        $tabs = [
+            'all' => Tab::make('All')
+                ->badge($counts->sum())
+                ->badgeColor('primary')
+                ->icon('heroicon-o-rectangle-stack')
+                ->modifyQueryUsing(
+                    fn (Builder $query) => $query
+                        ->where('is_active', true)
+                ),
+        ];
 
-    //     return $onboardingCount > 0 ? 'Onboarding' : 'all';
-    // }
+        foreach (CourseGroup::cases() as $group) {
+            $count = $counts[$group->value] ?? 0;
 
-    // public function getTabs(): array
-    // {
-    //     $counts = Course::query()
-    //         ->where('status', 'published')
-    //         ->selectRaw('category, COUNT(*) as total')
-    //         ->groupBy('category')
-    //         ->visibleTo(Auth::user())
-    //         ->pluck('total', 'category');
+            $tabs[$group->value] = Tab::make($group->getLabel())
+                ->icon($group->getIcon())
+                ->badge($count > 0 ? $count : null)
+                ->badgeColor($group->getColor())
+                ->modifyQueryUsing(
+                    fn (Builder $query) => $query
+                        ->where('is_active', true)
+                        ->where('category', $group)
+                );
+        }
 
-    //     $totalPublished = (int) $counts->sum();
-    //     $tabs = [];
-
-    //     // "All" tab - use a simple string key 'all'
-    //     $tabs['all'] = Tab::make(__('All'))
-    //         // ->badge($totalPublished)
-    //         // ->badgeColor('primary')
-    //         ->icon('heroicon-o-rectangle-stack')
-    //         // Explicitly return the query
-    //         ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'published'));
-
-    //     foreach (CourseGroup::meta() as $key => $meta) {
-    //         $tabs[$key] = Tab::make('')
-    //             ->extraAttributes([
-    //                 'x-tooltip.raw' => $meta['description'],
-    //             ])
-    //             ->badge(function () use ($key) {
-    //                 $count = Module::query()
-    //                     ->whereHas('courses', function ($query) use ($key) {
-    //                         $query->where('status', 'published')
-    //                             ->where('category', $key);
-    //                     })
-    //                     ->count();
-
-    //                 return $count > 0 ? $count : null;
-    //             })
-    //             ->badgeColor($meta['color'])
-    //             ->icon($meta['icon'])
-    //             ->IconPosition(IconPosition::After)
-    //             //    ->color($meta['color'])
-    //             ->modifyQueryUsing(
-    //                 fn (Builder $query) => $query
-    //                     ->where('status', 'published')
-    //                     ->where('category', $key)
-    //             );
-    //     }
-
-    //     $uncategorizedCount = (int) ($counts[null] ?? 0);
-    //     if ($uncategorizedCount > 0) {
-    //         $tabs['uncategorized'] = Tab::make(__('Uncategorized'))
-    //             ->icon('heroicon-o-tag')
-    //             ->badge($uncategorizedCount)
-    //             ->badgeColor('gray')
-    //             ->modifyQueryUsing(fn (Builder $q) => $q->where('status', 'published')->whereNull('category'));
-    //     }
-
-    //     return $tabs;
-    // }
+        return $tabs;
+    }
 }
