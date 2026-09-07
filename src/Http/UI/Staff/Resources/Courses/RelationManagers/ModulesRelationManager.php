@@ -30,15 +30,7 @@ class ModulesRelationManager extends RelationManager
             ])
 
             ->recordActions([
-
-                // Actions\ViewAction::make(),
-
-                Actions\Action::make('openLms')
-                    ->label('View')
-                    ->icon('heroicon-m-arrow-top-right-on-square') // nice "external" icon
-                    ->color('primary')
-                    ->url(fn ($record): string => 'https://intra.my.ds.amkor.com/lms/modules/'.$record->getKey()),
-
+                Actions\ViewAction::make(),
             ]);
     }
 }
