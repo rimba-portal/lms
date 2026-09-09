@@ -43,7 +43,7 @@ class LmsServiceProvider extends BitesServiceProvider
         $commands = [];
         foreach (glob($commandDir.'/*.php') as $file) {
             $className = basename($file, '.php');
-            $class = 'Rimba\\Base\\Console\\Commands\\'.$className;
+            $class = 'Rimba\\Lms\\Console\\Commands\\'.$className;
             if (class_exists($class) && is_subclass_of($class, Command::class)) {
                 $reflection = new ReflectionClass($class);
                 if (! $reflection->isAbstract()) {
