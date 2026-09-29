@@ -14,6 +14,7 @@ use Rimba\Lms\Builders\CertificateBuilder;
 use Rimba\Lms\Enums\CertificateStatus;
 use Rimba\Lms\Observers\CertificateObserver;
 use Rimba\Lms\Policies\CertificatePolicy;
+use Rimba\People\Models\Staff;
 
 #[Table('lms_certificates')]
 #[UsePolicy(CertificatePolicy::class)]
@@ -24,6 +25,11 @@ class Certificate extends Model
     public function newEloquentBuilder($query): CertificateBuilder
     {
         return new CertificateBuilder($query);
+    }
+
+    public function staff(): BelongsTo
+    {
+        return $this->belongsTo(Staff::class);
     }
 
     public function module(): BelongsTo

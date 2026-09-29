@@ -6,8 +6,8 @@ namespace Rimba\Lms\Http\UI\Staff\Resources\Certificates\Pages;
 
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
+use Rimba\Lms\Http\UI\Staff\Pages\TakeQuiz;
 use Rimba\Lms\Http\UI\Staff\Resources\Certificates\CertificateResource;
-use Rimba\Lms\Http\UI\Staff\Resources\Quizzes\QuizResource;
 use Rimba\Lms\Models\Certificate;
 
 class ViewCertificate extends ViewRecord
@@ -22,16 +22,11 @@ class ViewCertificate extends ViewRecord
                 ->icon('heroicon-o-arrow-top-right-on-square')
                 ->visible(fn (Certificate $certificate): bool => (bool) $certificate->quiz_attempt_id)
                 ->url(function (Certificate $certificate): ?string {
-                    $attempt = $certificate->attempt->quiz_id; // or resolve via model: QuizAttempt::find($record->quiz_attempt_id)
-                    if (! $attempt) {
-                        return null;
-                    }
+                    $quizId = $certificate->quizAttempt?->quiz_id;
 
-                    return QuizResource::getUrl(
-                        'view',
-                        ['record' => $attempt], // can pass model or route key (id/uuid)
-                        panel: 'lms',
-                    );
+                    return $quizId
+                        ? TakeQuiz::getUrl(['quiz' => $quizId], panel: 'staff')
+                        : null;
                 })
                 ->openUrlInNewTab(true),
         ];

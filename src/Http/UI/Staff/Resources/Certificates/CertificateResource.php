@@ -8,6 +8,8 @@ use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Rimba\Lms\Http\UI\Staff\Resources\Certificates\Pages\ListCertificates;
 use Rimba\Lms\Http\UI\Staff\Resources\Certificates\Pages\ViewCertificate;
 use Rimba\Lms\Http\UI\Staff\Resources\Certificates\Schemas\CertificateInfolist;
@@ -50,5 +52,21 @@ class CertificateResource extends Resource
             'index' => ListCertificates::route('/'),
             'view' => ViewCertificate::route('/{record}'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $staffId = Auth::user()?->staff?->getKey();
+
+        return parent::getEloquentQuery()
+            ->when(
+                $staffId,
+                fn (Builder $query, int|string $staffId): Builder => $query->where('staff_id', $staffId),
+                fn (Builder $query): Builder => $query->whereRaw('1 = 0'),
+            )
+            ->with([
+                'module',
+                'quizAttempt.quiz',
+            ]);
     }
 }

@@ -67,7 +67,7 @@ class CertificateInfolist
                                     ->date()
                                     ->inlineLabel(),
 
-                                TextEntry::make('attempt.quiz.name')
+                                TextEntry::make('quizAttempt.quiz.name')
                                     ->label('Quiz / Assessment')
                                     ->placeholder('-')
                                     ->inlineLabel(),

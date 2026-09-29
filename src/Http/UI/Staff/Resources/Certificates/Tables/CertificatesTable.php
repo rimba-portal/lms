@@ -7,6 +7,7 @@ namespace Rimba\Lms\Http\UI\Staff\Resources\Certificates\Tables;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Rimba\Lms\Enums\CertificateStatus;
 
 class CertificatesTable
 {
@@ -14,22 +15,57 @@ class CertificatesTable
     {
         return $table
             ->columns([
-                TextColumn::make('module.title')->searchable(),
-                TextColumn::make('name')->label('Name')->getStateUsing(fn ($record) => $record->user?->name ?? $record->staff?->name ?? '-'),
-                TextColumn::make('quiz_attempt_id')->numeric()->sortable(),
-                TextColumn::make('certificate_number')->searchable(),
-                TextColumn::make('title')->searchable(),
-                TextColumn::make('issued_at')->dateTime()->sortable(),
-                TextColumn::make('expires_at')->dateTime()->sortable(),
-                TextColumn::make('status')->searchable(),
-                TextColumn::make('created_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
+                TextColumn::make('module.name')
+                    ->label('Module')
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('certificate_number')
+                    ->label('Certificate No.')
+                    ->searchable()
+                    ->copyable(),
+
+                TextColumn::make('quizAttempt.quiz.name')
+                    ->label('Assessment')
+                    ->placeholder('-'),
+
+                TextColumn::make('issued_at')
+                    ->label('Issued')
+                    ->date()
+                    ->sortable(),
+
+                TextColumn::make('expires_at')
+                    ->label('Valid Until')
+                    ->date()
+                    ->placeholder('Lifetime')
+                    ->sortable(),
+
+                TextColumn::make('status')
+                    ->badge()
+                    ->formatStateUsing(
+                        fn (
+                            CertificateStatus|string|null $state
+                        ): string => $state instanceof CertificateStatus
+                            ? $state->label()
+                            : ucfirst((string) $state)
+                    )
+                    ->color(
+                        fn (
+                            CertificateStatus|string|null $state
+                        ): string => $state instanceof CertificateStatus
+                            ? $state->color()
+                            : CertificateStatus::tryFrom((string) $state)?->color()
+                                ?? 'gray'
+                    ),
+
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->recordActions([
                 ViewAction::make(),
-            ]);
+            ])
+            ->defaultSort('issued_at', 'desc');
     }
 }
