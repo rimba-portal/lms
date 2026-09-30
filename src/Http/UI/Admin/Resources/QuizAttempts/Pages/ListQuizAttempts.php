@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rimba\Lms\Http\UI\Admin\Resources\QuizAttempts\Pages;
 
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Rimba\Lms\Http\UI\Admin\Resources\QuizAttempts\QuizAttemptResource;
 
 class ListQuizAttempts extends ListRecords
 {
-    protected static string $resource = \Rimba\Lms\Http\UI\Admin\Resources\QuizAttempts\QuizAttemptResource::class;
+    protected static string $resource = QuizAttemptResource::class;
 
     protected static ?string $title = 'Quiz Activity Logs';
 
