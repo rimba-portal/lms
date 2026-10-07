@@ -5,17 +5,15 @@ declare(strict_types=1);
 namespace Rimba\Lms;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Event;
 use ReflectionClass;
 use Rimba\Base\Services\BitesServiceProvider;
+use Rimba\Wfm\Events\WorkforceAssignmentChanged;
+use Rimba\Wfm\Listeners\RecordAssignmentEvent;
+use Rimba\Wfm\Services\WorkforceAssignmentService;
 
 class LmsServiceProvider extends BitesServiceProvider
 {
-    protected string $configFile = __DIR__.'/../config/bites.php';
-
-    protected string $viewsPath = __DIR__.'/../resources/views';
-
-    protected string $iconsPath = __DIR__.'/../resources/svg';
-
     protected function bootPackage(): void
     {
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
@@ -23,11 +21,14 @@ class LmsServiceProvider extends BitesServiceProvider
             $this->registerCommandsFromDirectory();
         }
 
+        Event::listen(WorkforceAssignmentChanged::class, RecordAssignmentEvent::class);
+
     }
 
     protected function registerPackage(): void
     {
-        //
+        $this->app->singleton(WorkforceAssignmentService::class);
+
     }
 
     /**
@@ -43,7 +44,7 @@ class LmsServiceProvider extends BitesServiceProvider
         $commands = [];
         foreach (glob($commandDir.'/*.php') as $file) {
             $className = basename($file, '.php');
-            $class = 'Rimba\\Lms\\Console\\Commands\\'.$className;
+            $class = 'Rimba\\Wfm\\Console\\Commands\\'.$className;
             if (class_exists($class) && is_subclass_of($class, Command::class)) {
                 $reflection = new ReflectionClass($class);
                 if (! $reflection->isAbstract()) {
