@@ -55,14 +55,12 @@ class ModuleResource extends Resource
 
             ->columns([
                 TextColumn::make('code')
-                    ->label('Code')
                     ->fontFamily('mono')
                     ->weight(FontWeight::SemiBold)
                     ->searchable()
                     ->sortable(),
 
-                TextColumn::make('name')
-                    ->label('Name')
+                TextColumn::make('title')
                     ->searchable()
                     ->sortable()
                     ->wrap(),

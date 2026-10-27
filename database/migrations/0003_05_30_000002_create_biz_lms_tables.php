@@ -42,7 +42,9 @@ return new class extends Migration
         Schema::create('lms_modules', function (Blueprint $table): void {
             $table->id();
             $table->string('code')->unique();
-            $table->string('name');
+            $table->string('title');
+            $table->string('function')->nullable();
+            $table->string('category')->nullable();
             $table->text('description')->nullable();
             $table->unsignedInteger('duration_minutes')->nullable();
             $table->unsignedInteger('validity_days')->nullable();
