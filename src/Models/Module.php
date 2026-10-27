@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Rimba\Dms\Models\Document;
+use Rimba\Document\Models\Document;
 use Rimba\Lms\Builders\ModuleBuilder;
 use Rimba\Lms\Policies\ModulePolicy;
 

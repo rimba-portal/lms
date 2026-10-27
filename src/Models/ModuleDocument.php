@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Rimba\Dms\Models\Document;
+use Rimba\Document\Models\Document;
 
 #[Table('lms_module_documents')]
 #[Fillable(['module_id', 'document_id', 'sequence', 'is_required', 'attributes'])]

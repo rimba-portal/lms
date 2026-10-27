@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Rimba\Dms\Models\Document;
+use Rimba\Document\Models\Document;
 use Rimba\Versioning\Models\Version;
 
 #[Table('lms_quiz_attempt_questions')]

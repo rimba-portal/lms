@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Rimba\Lms\Services;
 
-use Rimba\Dms\Models\Document;
+use Rimba\Document\Models\Document;
 use Rimba\Lms\Actions\StoreVersionQuestionSchema;
 
 class QuestionSchemaImportService
